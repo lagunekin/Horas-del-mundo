@@ -52,47 +52,84 @@
 </head>
 <body>
     <div class="titulo-principal">Horas del Mundo</div>
-    <div class="reloj-container">
-        <div class="pais-container"><div class="pais">España</div><div class="reloj" id="hora-espana"></div></div>
-        <div class="pais-container"><div class="pais">Francia</div><div class="reloj" id="hora-francia"></div></div>
-        <div class="pais-container"><div class="pais">Alemania</div><div class="reloj" id="hora-alemania"></div></div>
-        <div class="pais-container"><div class="pais">Italia</div><div class="reloj" id="hora-italia"></div></div>
-        <div class="pais-container"><div class="pais">Reino Unido</div><div class="reloj" id="hora-reino-unido"></div></div>
-        <div class="pais-container"><div class="pais">Rusia</div><div class="reloj" id="hora-rusia"></div></div>
-        <div class="pais-container"><div class="pais">Suecia</div><div class="reloj" id="hora-suecia"></div></div>
-        <div class="pais-container"><div class="pais">Japón</div><div class="reloj" id="hora-japon"></div></div>
-        <div class="pais-container"><div class="pais">China</div><div class="reloj" id="hora-china"></div></div>
-        <div class="pais-container"><div class="pais">India</div><div class="reloj" id="hora-india"></div></div>
-        <div class="pais-container"><div class="pais">Australia</div><div class="reloj" id="hora-australia"></div></div>
-        <div class="pais-container"><div class="pais">Brasil</div><div class="reloj" id="hora-brasil"></div></div>
-        <div class="pais-container"><div class="pais">Argentina</div><div class="reloj" id="hora-argentina"></div></div>
-        <div class="pais-container"><div class="pais">México</div><div class="reloj" id="hora-mexico"></div></div>
-        <div class="pais-container"><div class="pais">Estados Unidos</div><div class="reloj" id="hora-eeuu"></div></div>
-    </div>
+    <div class="reloj-container" id="reloj-container"></div>
     <script>
-        function actualizarHoras() {
-            const zonasHorarias = {
-                "hora-espana": "Europe/Madrid",
-                "hora-francia": "Europe/Paris",
-                "hora-alemania": "Europe/Berlin",
-                "hora-italia": "Europe/Rome",
-                "hora-reino-unido": "Europe/London",
-                "hora-rusia": "Europe/Moscow",
-                "hora-suecia": "Europe/Stockholm",
-                "hora-japon": "Asia/Tokyo",
-                "hora-china": "Asia/Shanghai",
-                "hora-india": "Asia/Kolkata",
-                "hora-australia": "Australia/Sydney",
-                "hora-brasil": "America/Sao_Paulo",
-                "hora-argentina": "America/Argentina/Buenos_Aires",
-                "hora-mexico": "America/Mexico_City",
-                "hora-eeuu": "America/New_York"
-            };
-            
-            for (const [id, zona] of Object.entries(zonasHorarias)) {
-                document.getElementById(id).textContent = new Date().toLocaleTimeString('es-ES', { timeZone: zona, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const paises = {
+            "Afganistán": "Asia/Kabul",
+            "Alemania": "Europe/Berlin",
+            "Argentina": "America/Argentina/Buenos_Aires",
+            "Australia": "Australia/Sydney",
+            "Austria": "Europe/Vienna",
+            "Bélgica": "Europe/Brussels",
+            "Bolivia": "America/La_Paz",
+            "Brasil": "America/Sao_Paulo",
+            "Canadá": "America/Toronto",
+            "Chile": "America/Santiago",
+            "China": "Asia/Shanghai",
+            "Colombia": "America/Bogota",
+            "Corea del Sur": "Asia/Seoul",
+            "Costa Rica": "America/Costa_Rica",
+            "Cuba": "America/Havana",
+            "Dinamarca": "Europe/Copenhagen",
+            "Ecuador": "America/Guayaquil",
+            "Egipto": "Africa/Cairo",
+            "El Salvador": "America/El_Salvador",
+            "Emiratos Árabes Unidos": "Asia/Dubai",
+            "España": "Europe/Madrid",
+            "Estados Unidos": "America/New_York",
+            "Filipinas": "Asia/Manila",
+            "Finlandia": "Europe/Helsinki",
+            "Francia": "Europe/Paris",
+            "Grecia": "Europe/Athens",
+            "Guatemala": "America/Guatemala",
+            "Honduras": "America/Tegucigalpa",
+            "Hungría": "Europe/Budapest",
+            "India": "Asia/Kolkata",
+            "Indonesia": "Asia/Jakarta",
+            "Irlanda": "Europe/Dublin",
+            "Israel": "Asia/Jerusalem",
+            "Italia": "Europe/Rome",
+            "Japón": "Asia/Tokyo",
+            "México": "America/Mexico_City",
+            "Noruega": "Europe/Oslo",
+            "Nueva Zelanda": "Pacific/Auckland",
+            "Países Bajos": "Europe/Amsterdam",
+            "Pakistán": "Asia/Karachi",
+            "Panamá": "America/Panama",
+            "Paraguay": "America/Asuncion",
+            "Perú": "America/Lima",
+            "Polonia": "Europe/Warsaw",
+            "Portugal": "Europe/Lisbon",
+            "Reino Unido": "Europe/London",
+            "Rusia": "Europe/Moscow",
+            "Sudáfrica": "Africa/Johannesburg",
+            "Suecia": "Europe/Stockholm",
+            "Venezuela": "America/Caracas"
+        };
+        
+        function generarRelojes() {
+            const contenedor = document.getElementById("reloj-container");
+            for (const [pais, zona] of Object.entries(paises)) {
+                const div = document.createElement("div");
+                div.classList.add("pais-container");
+                div.innerHTML = `<div class='pais'>${pais}</div><div class='reloj' id='hora-${pais.replace(/\s+/g, '-').toLowerCase()}'></div>`;
+                contenedor.appendChild(div);
             }
         }
+        
+        function actualizarHoras() {
+            for (const [pais, zona] of Object.entries(paises)) {
+                const id = `hora-${pais.replace(/\s+/g, '-').toLowerCase()}`;
+                document.getElementById(id).textContent = new Date().toLocaleTimeString('es-ES', {
+                    timeZone: zona,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            }
+        }
+        
+        generarRelojes();
         setInterval(actualizarHoras, 1000);
         actualizarHoras();
     </script>
